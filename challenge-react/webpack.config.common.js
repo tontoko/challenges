@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const config = {
   entry: {
@@ -21,14 +22,27 @@ const config = {
       {
         test: [/\.ts$/, /\.tsx$/, /\.js$/],
         exclude: /node_modules/,
-        use: ['babel-loader', 'ts-loader'],
+        use: ['babel-loader'],
       },
     ],
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   plugins: [
+    new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       publicPath: '/',
       filename: 'index.html',
