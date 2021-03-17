@@ -4,7 +4,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import App from './App';
 
-const store = createStore(function (state, action) {
+const store = createStore((state, action) => {
   const _state =
     state == null
       ? {
