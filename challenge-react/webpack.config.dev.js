@@ -1,3 +1,4 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.config.common.js');
 
@@ -10,13 +11,7 @@ const config = merge(baseConfig, {
     port: 3000,
     historyApiFallback: true,
     disableHostCheck: true,
-    contentBase: 'public',
-  },
-  cache: {
-    type: 'filesystem',
-    buildDependencies: {
-      config: [__filename],
-    },
+    contentBase: path.resolve(__dirname, 'dist'),
   },
   mode: 'development',
 });

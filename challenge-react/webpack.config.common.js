@@ -2,10 +2,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: './src/index.tsx',
+  entry: {
+    main: path.resolve(__dirname, './src/index.tsx'),
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: '[name].[contenthash].js',
+    publicPath: '/',
+  },
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
   },
   module: {
     rules: [
@@ -21,9 +30,9 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      publicPath: 'dist',
+      publicPath: '/',
       filename: 'index.html',
-      template: 'public/index.html',
+      template: './public/index.html',
     }),
   ],
 };
