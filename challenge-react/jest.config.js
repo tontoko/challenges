@@ -1,12 +1,16 @@
-exports.default = {
-  jest: {
-    transform: {
-      '^.+\\.(js|jsx|mjs)$': 'babel-jest',
-      '^.+\\.(ts|tsx)$': 'ts-jest',
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.json',
+      babelConfig: '.babelrc',
     },
-    transformIgnorePatterns: ['/node_modules/(?!(xxxx.*?\\.js$))'],
-    testRegex: '(/test/.*|\\.(test|spec))\\.(ts|tsx|js)$',
-    testPathIgnorePatterns: ['/node_modules/'],
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   },
+  testMatch: ['**/__tests__/**/*.test.ts'],
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  moduleDirectories: ['node_modules', 'src'],
+  roots: ['<rootDir>/src'],
 };
