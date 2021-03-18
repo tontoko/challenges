@@ -42,7 +42,14 @@ const config = {
     },
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true,
+        },
+      },
+    }),
     new HtmlWebpackPlugin({
       publicPath: '/',
       filename: 'index.html',
