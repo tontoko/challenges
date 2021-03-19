@@ -35,7 +35,7 @@ const Overlay = styled.div`
 
 const Message = styled.p`
   font-size: 18px;
-  margin-bottom: 18px;
+  margin-bottom: 32px;
 `;
 
 const ModalContainer = styled.div`

@@ -1,26 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './rootReducer';
-import useCharities from 'hooks/useCharities';
-import useUpdateTotalDonate from 'hooks/useUpdateTotalDonate';
+import { useDispatch } from 'react-redux';
 import AppFooter from 'components/AppFooter';
 import Card from 'components/Card';
 import { handlePay } from 'helpers';
 import { Charity } from 'types/charity';
 import PaymentModal from 'components/PaymentModal';
 import { showModal, showProcceccing } from 'modules/modalModules';
+import useUpdateTotalDonate from 'hooks/useUpdateTotalDonate';
+import useCharities from 'hooks/useCharities';
 
 const App: React.FC = () => {
   const charities = useCharities();
-  const { donate } = useSelector((state: RootState) => state.donation);
   const [paymentOverlayState, setPaymentOverlayState] = useState<{
     [id: number]: boolean;
   }>({});
   const [procceccing, setProcceccing] = useState(false);
+  const donate = useUpdateTotalDonate();
   const dispatch = useDispatch();
-
-  useUpdateTotalDonate();
 
   useEffect(() => {
     if (!charities) return;
@@ -62,9 +59,7 @@ const App: React.FC = () => {
           <Card
             key={i}
             item={item}
-            showOverlay={
-              paymentOverlayState ? paymentOverlayState[item.id] : false
-            }
+            showOverlay={paymentOverlayState[item.id] || false}
             handleDonate={toglePaymentOverlay}
             handlePay={handleClickPay}
             procceccing={procceccing}
@@ -81,14 +76,12 @@ const App: React.FC = () => {
   );
 
   return (
-    <>
+    <Container>
       <PaymentModal />
-      <Container>
-        <AppTitle>Omise Tamboon React</AppTitle>
-        <CardsContainer>{cards}</CardsContainer>
-        <AppFooter donate={donate} />
-      </Container>
-    </>
+      <AppTitle>Omise Tamboon React</AppTitle>
+      <CardsContainer>{cards}</CardsContainer>
+      <AppFooter donate={donate} />
+    </Container>
   );
 };
 
@@ -96,6 +89,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
+  width: 100vw;
 `;
 
 const AppTitle = styled.h1`
