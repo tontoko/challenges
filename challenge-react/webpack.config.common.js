@@ -11,6 +11,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
     publicPath: '/',
+    assetModuleFilename: 'images/[name][ext]',
   },
   cache: {
     type: 'filesystem',
@@ -24,6 +25,10 @@ const config = {
         test: [/\.ts$/, /\.tsx$/, /\.js$/],
         exclude: /node_modules/,
         use: ['babel-loader'],
+      },
+      {
+        test: /\.(ico|svg|jpe?g|png|webp)$/,
+        type: 'asset',
       },
     ],
   },
