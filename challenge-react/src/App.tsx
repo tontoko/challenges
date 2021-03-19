@@ -43,7 +43,7 @@ const App: React.FC = () => {
           </Card>
         );
       }),
-    [charities]
+    [charities, selectedAmount]
   );
 
   return (
@@ -82,6 +82,10 @@ const MessageText = styled.p`
       body: `{ "charitiesId": ${id}, "amount": ${amount}, "currency": "${currency}" }`,
     })
  */
-function handlePay(id: number, amount: string, currency: string) {}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function handlePay(id: number, amount: string, currency: string) {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+}
 
 export default App;

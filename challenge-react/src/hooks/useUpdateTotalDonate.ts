@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Payment } from 'types/payment';
 import { updateTotalDonate } from 'modules/donationModules';
 
-const useUpdateTotalDonate = () => {
+const useUpdateTotalDonate = (): void => {
   const dispatch = useDispatch();
 
   const update = useCallback(() => {
@@ -17,11 +17,11 @@ const useUpdateTotalDonate = () => {
           updateTotalDonate(summaryDonations(data.map((item) => item.amount)))
         );
       });
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     update();
-  }, []);
+  }, [update]);
 };
 
 export default useUpdateTotalDonate;
