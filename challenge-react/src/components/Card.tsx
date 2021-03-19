@@ -6,10 +6,20 @@ import Button from './Button';
 type CardProps = {
   item: Charity;
   showOverlay: boolean;
+  handleDonate(id: number): void;
+  handlePay(item: Charity, selectedAmount: number): void;
+  procceccing: boolean;
 };
 
-const Card: React.FC<CardProps> = ({ item, showOverlay }) => {
+const Card: React.FC<CardProps> = ({
+  item,
+  showOverlay,
+  handleDonate,
+  handlePay,
+  procceccing,
+}) => {
   const [selectedAmount, setSelectedAmount] = useState(10);
+
   const payments = useMemo(
     () =>
       [10, 20, 50, 100, 500].map((amount, j) => (
@@ -17,27 +27,30 @@ const Card: React.FC<CardProps> = ({ item, showOverlay }) => {
           <input
             type="radio"
             name="payment"
-            onClick={() => setSelectedAmount(amount)}
+            checked={selectedAmount === amount}
+            onChange={() => setSelectedAmount(amount)}
           />
           {amount}
         </label>
       )),
-    []
+    [selectedAmount]
   );
+
   const cardPaymentOverlay = useCallback(
     (item: Charity) => (
       <CardPaymentOverlay>
-        <CloseButton>X</CloseButton>
+        <CloseButton onClick={() => handleDonate(item.id)}>X</CloseButton>
         <p>{item.name}</p>
         <PaymentRadioBox>{payments}</PaymentRadioBox>
         <Button
-          onClick={() => handlePay(item.id, selectedAmount, item.currency)}
+          onClick={() => handlePay(item, selectedAmount)}
+          disabled={procceccing}
         >
           Pay
         </Button>
       </CardPaymentOverlay>
     ),
-    [payments, selectedAmount]
+    [handleDonate, handlePay, procceccing, payments, selectedAmount]
   );
   return (
     <CardContainer>
@@ -45,7 +58,9 @@ const Card: React.FC<CardProps> = ({ item, showOverlay }) => {
       <CardImg bgImg={`public/images/${item.image}`} />
       <CardFooter>
         <p>{item.name}</p>
-        <Button>Donate</Button>
+        <Button onClick={() => handleDonate(item.id)} disabled={procceccing}>
+          Donate
+        </Button>
       </CardFooter>
     </CardContainer>
   );
@@ -104,23 +119,3 @@ const PaymentRadioBox = styled.div`
 `;
 
 export default Card;
-
-/**
- * Handle pay button
- * 
- * @param {*} The charities Id
- * @param {*} amount The amount was selected
- * @param {*} currency The currency
- * 
- * @example
- * fetch('http://localhost:3001/payments', {
-      method: 'POST',
-      body: `{ "charitiesId": ${id}, "amount": ${amount}, "currency": "${currency}" }`,
-    })
- */
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function handlePay(id: number, amount: number, currency: string) {
-  alert('test');
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-}

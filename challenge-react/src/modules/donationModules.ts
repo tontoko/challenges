@@ -2,12 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type State = {
   donate: number;
-  message: string;
 };
 
 const initialState: State = {
   donate: 0,
-  message: '',
 };
 
 const donationModules = createSlice({
@@ -17,12 +15,9 @@ const donationModules = createSlice({
     updateTotalDonate(state: State, action: PayloadAction<number>) {
       state.donate = state.donate + action.payload;
     },
-    updateMessage(state: State, action: PayloadAction<string>) {
-      state.message = action.payload;
-    },
   },
 });
 
-export const { updateTotalDonate, updateMessage } = donationModules.actions;
+export const { updateTotalDonate } = donationModules.actions;
 
 export default donationModules;
