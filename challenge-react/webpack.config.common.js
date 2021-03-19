@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyFilePlugin = require('copy-webpack-plugin');
 
 const config = {
   entry: {
@@ -60,6 +61,13 @@ const config = {
           syntactic: true,
         },
       },
+    }),
+    new CopyFilePlugin({
+      patterns: [
+        {
+          from: './public/images/**/*',
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
       publicPath: '/',

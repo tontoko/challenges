@@ -12,6 +12,7 @@ const config = merge(baseConfig, {
     historyApiFallback: true,
     disableHostCheck: true,
     contentBase: path.resolve(__dirname, 'dist'),
+    writeToDisk: true,
   },
   mode: 'development',
 });
