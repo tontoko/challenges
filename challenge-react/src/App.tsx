@@ -1,91 +1,73 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from './rootReducer';
 import useCharities from 'hooks/useCharities';
 import useUpdateTotalDonate from 'hooks/useUpdateTotalDonate';
+import AppFooter from 'components/AppFooter';
+import Card from 'components/Card';
 
 const App: React.FC = () => {
   const charities = useCharities();
-  const [selectedAmount, setSelectedAmount] = useState(10);
   const { donate, message } = useSelector((state: RootState) => state.donation);
+  const [paymentOverlayState, setPaymentOverlayState] = useState<{
+    [id: number]: boolean;
+  }>();
 
   useUpdateTotalDonate();
+
+  useEffect(() => {
+    if (!charities) return;
+    setPaymentOverlayState(
+      Object.fromEntries(charities.map((charity) => [charity.id, false]))
+    );
+  }, [charities]);
 
   const cards = useMemo(
     () =>
       charities.map((item, i) => {
-        const payments = [10, 20, 50, 100, 500].map((amount, j) => (
-          <label key={j}>
-            <input
-              type="radio"
-              name="payment"
-              onClick={() => setSelectedAmount(amount)}
-            />
-            {amount}
-          </label>
-        ));
-
         return (
-          <Card key={i}>
-            <p>{item.name}</p>
-            {payments}
-            <button
-              onClick={handlePay.call(
-                self,
-                item.id,
-                selectedAmount,
-                item.currency
-              )}
-            >
-              Pay
-            </button>
-          </Card>
+          <Card
+            key={i}
+            item={item}
+            showOverlay={
+              paymentOverlayState ? paymentOverlayState[item.id] : false
+            }
+          />
         );
       }),
-    [charities, selectedAmount]
+    [charities, paymentOverlayState]
   );
 
   return (
-    <div>
-      <h1>Tamboon React</h1>
-      <p>All donations: {donate}</p>
-      <MessageText>{message}</MessageText>
-      {cards}
-    </div>
+    <Container>
+      <AppTitle>Omise Tamboon React</AppTitle>
+      {/* <MessageText>{message}</MessageText> */}
+      <CardsContainer>{cards}</CardsContainer>
+      <AppFooter donate={donate} />
+    </Container>
   );
 };
 
-const Card = styled.div`
-  margin: 10px;
-  border: 1px solid #ccc;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
-const MessageText = styled.p`
-  color: red;
-  margin: 1em 0;
+const AppTitle = styled.h1`
+  font-size: 32px;
   font-weight: bold;
-  font-size: 16px;
-  text-align: center;
+  color: #505050;
+  margin: 40px 0;
 `;
 
-/**
- * Handle pay button
- * 
- * @param {*} The charities Id
- * @param {*} amount The amount was selected
- * @param {*} currency The currency
- * 
- * @example
- * fetch('http://localhost:3001/payments', {
-      method: 'POST',
-      body: `{ "charitiesId": ${id}, "amount": ${amount}, "currency": "${currency}" }`,
-    })
- */
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function handlePay(id: number, amount: string, currency: string) {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-}
+const CardsContainer = styled.div`
+  width: 100%;
+  display: grid;
+  grid-auto-rows: 300px;
+  grid-template-columns: repeat(auto-fill, 500px);
+  justify-content: center;
+`;
 
 export default App;

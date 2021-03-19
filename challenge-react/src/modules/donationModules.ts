@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 type State = {
   donate: number;
   message: string;
-} | null;
+};
 
 const initialState: State = {
   donate: 0,
