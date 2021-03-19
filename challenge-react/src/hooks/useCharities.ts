@@ -4,15 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'rootReducer';
 import { Charity } from 'types/charity';
 
-const useCharities = (): Charity[] => {
-  const { charities } = useSelector((state: RootState) => state.charity);
+const useCharities = (): { charities: Charity[]; loading: boolean } => {
+  const { charities, loading } = useSelector(
+    (state: RootState) => state.charity
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCharities());
   }, [dispatch]);
 
-  return charities;
+  return { charities, loading };
 };
 
 export default useCharities;

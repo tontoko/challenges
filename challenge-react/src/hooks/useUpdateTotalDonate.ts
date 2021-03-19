@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateTotalDonate } from 'modules/donationModules';
 import { RootState } from 'rootReducer';
 
-const useUpdateTotalDonate = (): number => {
+const useUpdateTotalDonate = (): { donate: number; procceccing: boolean } => {
   const dispatch = useDispatch();
-  const { donate } = useSelector((state: RootState) => state.donation);
+  const { donate, procceccing } = useSelector(
+    (state: RootState) => state.donation
+  );
 
   useEffect(() => {
-    dispatch(updateTotalDonate);
+    dispatch(updateTotalDonate());
   }, [dispatch]);
 
-  return donate;
+  return { donate, procceccing };
 };
 
 export default useUpdateTotalDonate;

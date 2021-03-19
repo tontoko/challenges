@@ -4,11 +4,15 @@ import { Payment } from 'types/payment';
 export const summaryDonations = (danations: number[]): number =>
   danations.reduce((accumulator, value) => accumulator + value);
 
+export const fetchDonate = async (): Promise<Payment[]> => {
+  const resp = await fetch('http://localhost:3001/payments');
+  return await resp.json();
+};
+
 /**
- * Handle pay button
+ * create donate
  * 
- * @param {*} The charity object
- * @param {*} amount The amount was selected
+ * @param {*} The payment object
  * 
  * @example
  * fetch('http://localhost:3001/payments', {
@@ -16,14 +20,17 @@ export const summaryDonations = (danations: number[]): number =>
       body: `{ "charitiesId": ${item.id}, "amount": ${amount}, "currency": "${item.currency}" }`,
     })
  */
-
-// eslint-disable-next-line
-export const handlePay = async (item: Charity, amount: number) => {
-  alert('test');
-};
-
-export const fetchDonate = async (): Promise<Payment[]> => {
-  const resp = await fetch('http://localhost:3001/payments');
+export const createDonate = async (
+  item: Omit<Payment, 'id'>
+): Promise<Payment[]> => {
+  const resp = await fetch('http://localhost:3001/payments', {
+    method: 'POST',
+    body: JSON.stringify(item),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
   return await resp.json();
 };
 

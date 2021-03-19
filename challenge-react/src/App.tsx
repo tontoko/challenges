@@ -3,28 +3,27 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import AppFooter from 'components/AppFooter';
 import Card from 'components/Card';
-import { handlePay } from 'helpers';
 import { Charity } from 'types/charity';
 import PaymentModal from 'components/PaymentModal';
 import { showModal, showProcceccing } from 'modules/modalModules';
 import useUpdateTotalDonate from 'hooks/useUpdateTotalDonate';
 import useCharities from 'hooks/useCharities';
+import { addDonate } from 'modules/donationModules';
 
 const App: React.FC = () => {
-  const charities = useCharities();
+  const { charities, loading } = useCharities();
   const [paymentOverlayState, setPaymentOverlayState] = useState<{
     [id: number]: boolean;
   }>({});
-  const [procceccing, setProcceccing] = useState(false);
-  const donate = useUpdateTotalDonate();
+  const { donate, procceccing } = useUpdateTotalDonate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!charities) return;
+    if (loading) return;
     setPaymentOverlayState(
       Object.fromEntries(charities.map((charity) => [charity.id, false]))
     );
-  }, [charities]);
+  }, [charities, loading]);
 
   const toglePaymentOverlay = useCallback(
     (id: number) =>
@@ -38,15 +37,16 @@ const App: React.FC = () => {
   const handleClickPay = useCallback(
     async (item: Charity, amount: number) => {
       try {
-        setProcceccing(true);
         dispatch(showProcceccing());
-        await handlePay(item, amount);
+        dispatch(
+          addDonate({
+            item: { charitiesId: item.id, amount, currency: item.currency },
+          })
+        );
         toglePaymentOverlay(item.id);
         dispatch(showModal('payment succeeded, many thanks!'));
       } catch (e) {
         dispatch(showModal('something went wrong!'));
-      } finally {
-        setProcceccing(false);
       }
     },
     [dispatch, toglePaymentOverlay]

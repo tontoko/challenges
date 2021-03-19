@@ -12,7 +12,7 @@ const AppFooter: React.FC<FooterProps> = ({ donate }) => (
 );
 
 const FooterContainer = styled.div`
-  height: 50px;
+  min-height: 50px;
   width: 100%;
   display: flex;
   box-sizing: border-box;

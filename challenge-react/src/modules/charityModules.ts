@@ -4,10 +4,12 @@ import { Charity } from 'types/charity';
 
 type State = {
   charities: Charity[];
+  loading: boolean;
 };
 
 const initialState: State = {
   charities: [],
+  loading: true,
 };
 
 export const getCharities = createAsyncThunk(
@@ -25,6 +27,13 @@ const charityModules = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getCharities.fulfilled, (state, action) => {
       state.charities = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getCharities.rejected, (state, _action) => {
+      state.loading = false;
+    });
+    builder.addCase(getCharities.pending, (state, _action) => {
+      state.loading = true;
     });
   },
 });
