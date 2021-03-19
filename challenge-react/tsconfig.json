@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "noImplicitAny": true,
-    "strict": false,
+    "strict": true,
     "module": "esnext",
     "target": "esnext",
     "jsx": "react",
