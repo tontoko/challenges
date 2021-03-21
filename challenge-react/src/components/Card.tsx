@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Charity } from 'types/charity';
 import Button from './Button';
 
-type CardProps = {
+export type CardProps = {
   item: Charity;
   showOverlay: boolean;
   handleDonate(id: number): void;
@@ -22,8 +22,8 @@ const Card: React.FC<CardProps> = ({
 
   const payments = useMemo(
     () =>
-      [10, 20, 50, 100, 500].map((amount, j) => (
-        <label key={j}>
+      [10, 20, 50, 100, 500].map((amount, i) => (
+        <label key={i}>
           <input
             type="radio"
             name="payment"
@@ -45,6 +45,7 @@ const Card: React.FC<CardProps> = ({
         <Button
           onClick={() => handlePay(item, selectedAmount)}
           disabled={procceccing}
+          className="payment-submit"
         >
           Pay
         </Button>
