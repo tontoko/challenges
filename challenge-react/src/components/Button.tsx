@@ -1,20 +1,10 @@
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-type ButtonProps = {
-  onClick?(): void;
-  disabled?: boolean;
-};
-
-const Button: React.FC<ButtonProps> = ({
-  onClick,
-  disabled = false,
+const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
   children,
-}) => (
-  <ButtonStyle onClick={onClick} disabled={disabled}>
-    {children}
-  </ButtonStyle>
-);
+  ...props
+}) => <ButtonStyle {...props}>{children}</ButtonStyle>;
 
 const ButtonStyle = styled.button`
   padding: 5px 10px;
