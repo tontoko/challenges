@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import media from 'styled-media-query';
 import { useDispatch } from 'react-redux';
 import AppFooter from 'components/AppFooter';
 import Card from 'components/Card';
@@ -96,6 +97,9 @@ const Container = styled.div`
 
 const AppTitle = styled.h1`
   font-size: 32px;
+  ${media.lessThan('small')`
+    font-size: 28px;
+  `}
   font-weight: bold;
   color: #505050;
   margin: 40px 0;
@@ -106,6 +110,9 @@ const CardsContainer = styled.div`
   display: grid;
   grid-auto-rows: 300px;
   grid-template-columns: repeat(auto-fill, 500px);
+  ${media.lessThan('medium')`
+    grid-template-columns: 85%;
+  `}
   justify-content: center;
 `;
 

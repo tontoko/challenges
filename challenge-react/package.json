@@ -21,6 +21,7 @@
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "styled-components": "^5.2.1",
+    "styled-media-query": "^2.1.2",
     "styled-reset": "^4.3.4"
   },
   "devDependencies": {
