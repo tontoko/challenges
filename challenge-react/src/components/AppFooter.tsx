@@ -16,7 +16,7 @@ const FooterContainer = styled.div`
   width: 100%;
   display: flex;
   box-sizing: border-box;
-  position: sticky;
+  position: fixed;
   bottom: 0;
   z-index: 100;
   background-color: white;

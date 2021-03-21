@@ -89,8 +89,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
+  margin-bottom: 50px;
 `;
 
 const AppTitle = styled.h1`
