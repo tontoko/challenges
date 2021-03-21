@@ -6,6 +6,49 @@
 
 **Tamboon React** is a code challenge for frontend developer.
 
+## Added changes
+
+### start dev server
+
+```bash
+yarn client
+```
+
+or with vs-code debugger
+
+```
+Launch Chrome against localhost
+```
+
+### test
+
+```bash
+yarn test
+```
+
+or with vs-code debugger
+
+```
+Debug Jest Tests
+```
+
+### biuld
+
+```bash
+yarn client:build
+```
+
+### webpack config
+
+`webpack.config.common.js`
+common settings for prod / dev
+
+`webpack.config.prod.js`
+settings only for production build
+
+`webpack.config.dev.js`
+settings only for dev server
+
 ## Scenario
 
 Once upon a time.. nope!  
